@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
@@ -14,11 +14,15 @@ import {
   Crosshair,
   ShieldCheck,
   TrendingUp,
-  BarChart3,
   Settings,
   Sparkles,
-  DollarSign
+  DollarSign,
+  KeyRound,
+  LogOut,
+  UserCheck
 } from "lucide-react";
+import { getCurrentUser, DEMO_PERSONAS } from "@/lib/auth";
+import { User } from "@/types/user";
 
 interface NavItem {
   title: string;
@@ -66,12 +70,23 @@ const navigation: NavSection[] = [
     title: "Administration",
     items: [
       { title: "Settings & Weights", href: "/settings", icon: Settings },
+      { title: "Sign In / Switch User", href: "/login", icon: KeyRound },
     ],
   },
 ];
 
 export function Sidebar() {
   const pathname = usePathname();
+  const [currentUser, setCurrentUser] = useState<User>(DEMO_PERSONAS.executive);
+
+  useEffect(() => {
+    setCurrentUser(getCurrentUser());
+    const handleAuthChange = () => {
+      setCurrentUser(getCurrentUser());
+    };
+    window.addEventListener("aegis_auth_changed", handleAuthChange);
+    return () => window.removeEventListener("aegis_auth_changed", handleAuthChange);
+  }, []);
 
   return (
     <aside className="w-64 border-r border-slate-800/80 bg-slate-950/80 backdrop-blur-xl flex flex-col h-screen fixed top-0 left-0 z-40 select-none">
@@ -130,15 +145,25 @@ export function Sidebar() {
         ))}
       </div>
 
-      {/* Org Profile Status Indicator */}
-      <div className="p-4 border-t border-slate-800/80 bg-slate-900/40">
-        <div className="p-3 rounded-xl bg-slate-900/80 border border-slate-800 flex items-center gap-3">
-          <div className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-          <div className="overflow-hidden">
-            <p className="text-xs font-medium text-slate-200 truncate">CyberAegis Financial</p>
-            <p className="text-[10px] text-slate-400">Risk Engine: Deterministic v1</p>
+      {/* Active User Section in Sidebar */}
+      <div className="p-4 border-t border-slate-800/80 bg-slate-900/40 space-y-2">
+        <Link
+          href="/login"
+          className="p-2.5 rounded-xl bg-slate-900/80 border border-slate-800 hover:border-slate-700 flex items-center justify-between transition-all group"
+        >
+          <div className="flex items-center gap-2.5 min-w-0">
+            <div className="w-7 h-7 rounded-lg bg-blue-600/20 border border-blue-500/30 text-blue-400 flex items-center justify-center font-bold text-[11px] shrink-0">
+              {currentUser.avatar_initials || "PS"}
+            </div>
+            <div className="min-w-0 flex-1">
+              <p className="text-xs font-medium text-slate-200 truncate group-hover:text-blue-400 transition-colors">
+                {currentUser.full_name}
+              </p>
+              <p className="text-[10px] text-slate-400 truncate">{currentUser.role}</p>
+            </div>
           </div>
-        </div>
+          <KeyRound className="w-3.5 h-3.5 text-slate-500 group-hover:text-blue-400 shrink-0" />
+        </Link>
       </div>
     </aside>
   );

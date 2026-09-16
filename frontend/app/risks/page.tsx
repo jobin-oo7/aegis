@@ -10,17 +10,21 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Select } from "@/components/ui/select";
 import { formatCurrency, getRiskLevelColor } from "@/lib/utils";
-import { DEMO_RISKS } from "@/lib/demo-data";
-import { Search, Filter, ArrowUpDown, ArrowUpRight, ShieldCheck, Download } from "lucide-react";
+import { DEMO_RISKS, DEMO_ASSETS, DEMO_VULNERABILITIES, DEMO_THREATS } from "@/lib/demo-data";
+import { RealDataStudioModal } from "@/components/studio/RealDataStudioModal";
+import { Risk } from "@/types/risk";
+import { Search, Filter, ArrowUpDown, ArrowUpRight, ShieldCheck, PlusCircle, Calculator, Download } from "lucide-react";
 
 export default function RiskRegisterPage() {
+  const [risks, setRisks] = useState<Risk[]>(DEMO_RISKS);
   const [search, setSearch] = useState("");
   const [levelFilter, setLevelFilter] = useState("all");
   const [sortBy, setSortBy] = useState<"residual_risk" | "eal" | "inherent_risk">("residual_risk");
   const [sortOrder, setSortOrder] = useState<"asc" | "desc">("desc");
+  const [isStudioOpen, setIsStudioOpen] = useState(false);
 
   const filteredRisks = useMemo(() => {
-    return DEMO_RISKS.filter((risk) => {
+    return risks.filter((risk) => {
       const matchesSearch =
         risk.asset_name?.toLowerCase().includes(search.toLowerCase()) ||
         risk.vulnerability_name?.toLowerCase().includes(search.toLowerCase()) ||
@@ -32,17 +36,26 @@ export default function RiskRegisterPage() {
       const valB = b[sortBy];
       return sortOrder === "desc" ? valB - valA : valA - valB;
     });
-  }, [search, levelFilter, sortBy, sortOrder]);
+  }, [risks, search, levelFilter, sortBy, sortOrder]);
+
+  const handleRiskCalculated = (newRisk: Risk) => {
+    setRisks([newRisk, ...risks]);
+  };
 
   return (
     <PageShell
       title="Organizational Risk Register"
       description="Authoritative repository of identified cybersecurity risks, quantification factors, and residual exposures"
+      onOpenStudio={() => setIsStudioOpen(true)}
       actions={
         <div className="flex items-center gap-2">
-          <Button variant="secondary" size="sm">
-            <Download className="w-3.5 h-3.5" />
-            <span>Export CSV</span>
+          <Button
+            size="sm"
+            onClick={() => setIsStudioOpen(true)}
+            className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500"
+          >
+            <PlusCircle className="w-3.5 h-3.5 mr-1" />
+            <span>Calculate New Risk</span>
           </Button>
           <Link href="/dashboard#matrix">
             <Button variant="outline" size="sm">
@@ -124,9 +137,10 @@ export default function RiskRegisterPage() {
             <div className="text-center py-12 space-y-3">
               <ShieldCheck className="w-10 h-10 text-slate-600 mx-auto" />
               <h3 className="text-sm font-semibold text-slate-300">No risks match the current filter</h3>
-              <p className="text-xs text-slate-500">Try adjusting your search criteria or resetting filters.</p>
-              <Button variant="secondary" size="sm" onClick={() => { setSearch(""); setLevelFilter("all"); }}>
-                Reset Filters
+              <p className="text-xs text-slate-500">Try adjusting your search criteria or calculate a new risk.</p>
+              <Button size="sm" onClick={() => setIsStudioOpen(true)}>
+                <PlusCircle className="w-3.5 h-3.5 mr-1" />
+                <span>Calculate New Risk</span>
               </Button>
             </div>
           ) : (
@@ -197,6 +211,15 @@ export default function RiskRegisterPage() {
           )}
         </CardContent>
       </Card>
+
+      <RealDataStudioModal
+        isOpen={isStudioOpen}
+        onClose={() => setIsStudioOpen(false)}
+        existingAssets={DEMO_ASSETS}
+        existingVulns={DEMO_VULNERABILITIES}
+        existingThreats={DEMO_THREATS}
+        onRiskCalculated={handleRiskCalculated}
+      />
     </PageShell>
   );
 }

@@ -2,10 +2,14 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
-import { Search, Bell, Shield, User, Globe, ChevronDown } from "lucide-react";
-import { Badge } from "@/components/ui/badge";
+import { Search, Bell, Shield, User, Globe, ChevronDown, PlusCircle, Calculator } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
-export function Header() {
+interface HeaderProps {
+  onOpenStudio?: () => void;
+}
+
+export function Header({ onOpenStudio }: HeaderProps) {
   const [currency, setCurrency] = useState<"INR" | "USD">("INR");
 
   return (
@@ -23,12 +27,20 @@ export function Header() {
       </div>
 
       {/* Right Controls */}
-      <div className="flex items-center gap-4">
+      <div className="flex items-center gap-3">
+        {/* Quick Add Real Data Action */}
+        {onOpenStudio && (
+          <Button size="sm" onClick={onOpenStudio} className="hidden sm:inline-flex bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-xs">
+            <PlusCircle className="w-3.5 h-3.5 mr-1" />
+            <span>Add Real Data & Calculate</span>
+          </Button>
+        )}
+
         {/* Currency Switcher */}
         <div className="flex items-center bg-slate-900 border border-slate-800 rounded-xl p-0.5">
           <button
             onClick={() => setCurrency("INR")}
-            className={`px-2.5 py-1 text-xs font-semibold rounded-lg transition-colors ${
+            className={`px-2 py-1 text-xs font-semibold rounded-lg transition-colors ${
               currency === "INR"
                 ? "bg-blue-600 text-white shadow-sm"
                 : "text-slate-400 hover:text-slate-200"
@@ -38,7 +50,7 @@ export function Header() {
           </button>
           <button
             onClick={() => setCurrency("USD")}
-            className={`px-2.5 py-1 text-xs font-semibold rounded-lg transition-colors ${
+            className={`px-2 py-1 text-xs font-semibold rounded-lg transition-colors ${
               currency === "USD"
                 ? "bg-blue-600 text-white shadow-sm"
                 : "text-slate-400 hover:text-slate-200"
@@ -49,25 +61,19 @@ export function Header() {
         </div>
 
         {/* Live Engine Indicator */}
-        <div className="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-xl bg-slate-900/60 border border-slate-800/80 text-xs text-slate-300">
-          <span className="w-2 h-2 rounded-full bg-emerald-500" />
-          <span>Continuous Scoring</span>
+        <div className="hidden lg:flex items-center gap-2 px-3 py-1 rounded-xl bg-slate-900/60 border border-slate-800/80 text-xs text-slate-300">
+          <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+          <span>Active Engine v1</span>
         </div>
-
-        {/* Notifications */}
-        <button className="relative p-2 rounded-xl bg-slate-900 border border-slate-800 text-slate-400 hover:text-slate-200 transition-colors">
-          <Bell className="w-4 h-4" />
-          <span className="absolute top-1 right-1 w-2 h-2 rounded-full bg-rose-500" />
-        </button>
 
         {/* User Profile Menu */}
         <div className="flex items-center gap-2.5 pl-2 border-l border-slate-800">
-          <div className="w-8 h-8 rounded-xl bg-gradient-to-tr from-slate-800 to-slate-700 border border-slate-600/50 flex items-center justify-center text-slate-200 font-semibold text-xs">
+          <div className="w-8 h-8 rounded-xl bg-gradient-to-tr from-blue-700 to-indigo-600 border border-indigo-500/30 flex items-center justify-center text-white font-semibold text-xs shadow-sm">
             PM
           </div>
           <div className="hidden md:block text-left">
             <p className="text-xs font-medium text-slate-200 leading-tight">Priya Sharma</p>
-            <p className="text-[10px] text-slate-400">Lead Risk Analyst</p>
+            <p className="text-[10px] text-slate-400">Lead Risk Officer</p>
           </div>
         </div>
       </div>

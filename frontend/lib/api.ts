@@ -82,4 +82,21 @@ export const api = {
       method: "POST",
       body: JSON.stringify(riskContext),
     }),
+
+  chatWithAI: (messages: { role: string; content: string }[], context?: any) =>
+    fetchWithFallback("/ai/chat", {
+      role: "assistant",
+      content: "Hello! I am Aegis-Quant AI, your cyber risk intelligence and capital quantification advisor. Our deterministic quantification engine monitors 6 active enterprise risks with a total residual EAL of ₹36,950,000.",
+      suggestions: [
+        "What is our total organizational EAL liability?",
+        "Which risk is currently ranked #1 and why?",
+        "If we spend ₹800,000 on WAF, what is our projected ROSI?",
+        "Explain how Likelihood & Residual Risk are calculated",
+      ],
+      citations: ["Aegis Deterministic Risk Model v1.0", "ISO/IEC 27005", "NIST SP 800-30"],
+    }, {
+      method: "POST",
+      body: JSON.stringify({ messages, context }),
+    }),
 };
+

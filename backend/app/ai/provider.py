@@ -21,3 +21,12 @@ class AIProvider(ABC):
         Generates decision-support explanation comparing investment options.
         """
         pass
+
+    @abstractmethod
+    async def chat(self, messages: List[Dict[str, str]], context: Dict[str, Any] = None) -> Dict[str, Any]:
+        """
+        Interactive conversational intelligence grounded in real organization assets,
+        deterministic risk formulas, EAL loss metrics, and ROSI capital optimization.
+        """
+        pass
+

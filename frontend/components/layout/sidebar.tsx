@@ -19,7 +19,8 @@ import {
   DollarSign,
   KeyRound,
   LogOut,
-  UserCheck
+  UserCheck,
+  Bot
 } from "lucide-react";
 import { getCurrentUser, DEMO_PERSONAS } from "@/lib/auth";
 import { User } from "@/types/user";
@@ -41,6 +42,7 @@ const navigation: NavSection[] = [
     title: "Overview",
     items: [
       { title: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
+      { title: "AI Risk Advisor", href: "/ai-advisor", icon: Bot, badge: "AI" },
     ],
   },
   {

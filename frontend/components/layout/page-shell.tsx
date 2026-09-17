@@ -3,6 +3,7 @@
 import React from "react";
 import { Sidebar } from "./sidebar";
 import { Header } from "./header";
+import { AIChatBotWidget } from "@/components/ai/AIChatBotWidget";
 
 interface PageShellProps {
   title?: string;
@@ -30,7 +31,10 @@ export function PageShell({ title, description, actions, onOpenStudio, children 
           )}
           {children}
         </main>
+        {/* Global Floating AI Risk Advisor Widget */}
+        <AIChatBotWidget />
       </div>
     </div>
   );
 }
+

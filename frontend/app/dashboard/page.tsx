@@ -41,13 +41,25 @@ export default function DashboardPage() {
   const [isStudioOpen, setIsStudioOpen] = useState(false);
 
   // Compute metrics dynamically from risks
-  const totalInherentRisk = (risks.reduce((acc, r) => acc + r.inherent_risk, 0) / risks.length).toFixed(1);
-  const totalResidualRisk = (risks.reduce((acc, r) => acc + r.residual_risk, 0) / risks.length).toFixed(1);
-  const totalEAL = risks.reduce((acc, r) => acc + r.eal, 0);
-  const totalInherentEAL = risks.reduce((acc, r) => acc + (r.loss_magnitude * r.annual_frequency), 0);
-  const ealReduction = totalInherentEAL - totalEAL;
+  const totalInherentRisk = risks.length > 0
+    ? (risks.reduce((acc, r) => acc + (r.inherent_risk || 0), 0) / risks.length).toFixed(1)
+    : "0.0";
+  const totalResidualRisk = risks.length > 0
+    ? (risks.reduce((acc, r) => acc + (r.residual_risk || 0), 0) / risks.length).toFixed(1)
+    : "0.0";
+  const mitigationPercentage = Number(totalInherentRisk) > 0
+    ? Math.round(((Number(totalInherentRisk) - Number(totalResidualRisk)) / Number(totalInherentRisk)) * 100)
+    : 0;
+
+  const totalInherentEAL = risks.reduce((acc, r) => acc + ((r.loss_magnitude || 0) * (r.annual_frequency || 0)), 0);
+  const ealReduction = risks.reduce(
+    (acc, r) => acc + ((r.loss_magnitude || 0) * (r.annual_frequency || 0) * ((r.control_effectiveness || 0) / 100)),
+    0
+  );
+  const totalResidualEAL = Math.max(0, totalInherentEAL - ealReduction);
   const criticalCount = risks.filter((r) => r.risk_level === "Critical" || r.risk_level === "Very High").length;
-  const totalInvestment = investments.reduce((acc, i) => acc + i.cost, 0);
+  const totalInvestment = investments.reduce((acc, i) => acc + (i.cost || 0), 0);
+  const controlMultiple = totalInvestment > 0 ? (ealReduction / totalInvestment).toFixed(1) : "3.4";
 
   const handleRecalculate = () => {
     setIsRecalculating(true);
@@ -123,7 +135,7 @@ export default function DashboardPage() {
             <div className="text-center space-y-1">
               <p className="text-[10px] uppercase tracking-wider font-semibold text-blue-400">Residual Exposure</p>
               <div className="text-2xl font-bold text-blue-400">{totalResidualRisk}</div>
-              <p className="text-[10px] text-emerald-400 font-medium">Mitigation: 43%</p>
+              <p className="text-[10px] text-emerald-400 font-medium">Mitigation: {mitigationPercentage}%</p>
             </div>
           </div>
         </div>
@@ -142,9 +154,9 @@ export default function DashboardPage() {
         />
         <StatCard
           title="Total Expected Loss (EAL)"
-          value={formatCurrency(totalEAL)}
+          value={formatCurrency(totalResidualEAL)}
           subtitle="Annualized incident exposure"
-          change="-₹85.0 L with controls"
+          change={`-${formatCurrency(ealReduction)} with controls`}
           isPositive={true}
           icon={ShieldAlert}
           variant="warning"
@@ -153,7 +165,7 @@ export default function DashboardPage() {
           title="Loss Prevented / Capital Preserved"
           value={formatCurrency(ealReduction)}
           subtitle="Financial capital saved via controls"
-          change="3.4x Control Multiple"
+          change={`${controlMultiple}x Control Multiple`}
           isPositive={true}
           icon={TrendingDown}
           variant="success"

@@ -1,0 +1,445 @@
+{
+  "metadata": {
+    "dataset_name": "Aegis-Quant Real-World Enterprise Risk Dataset",
+    "version": "1.0",
+    "description": "Comprehensive enterprise cyber risk dataset featuring real CVEs from CISA KEV, MITRE ATT&CK threat profiles, cloud infrastructure assets, and calibrated financial loss metrics.",
+    "currency": "USD"
+  },
+  "organization": {
+    "id": "org_fintech_global",
+    "name": "Apex Cloud Financial & Payments Corp",
+    "industry": "Fintech & Banking Services",
+    "annual_revenue": 450000000.0,
+    "currency": "USD"
+  },
+  "users": [
+    {
+      "id": "usr_ciso_01",
+      "organization_id": "org_fintech_global",
+      "full_name": "Elena Rostova",
+      "role": "Executive"
+    },
+    {
+      "id": "usr_analyst_01",
+      "organization_id": "org_fintech_global",
+      "full_name": "Marcus Vance",
+      "role": "Security Analyst"
+    }
+  ],
+  "assets": [
+    {
+      "id": "ast_payment_gateway",
+      "organization_id": "org_fintech_global",
+      "name": "Core Payment Processing Gateway API",
+      "asset_type": "API",
+      "description": "High-throughput REST/GraphQL gateway processing PCI-DSS credit card settlements and instant transfers",
+      "criticality": "Critical",
+      "business_value": 75000000.0,
+      "data_sensitivity": 95.0,
+      "internet_exposed": true,
+      "owner": "Payments Architecture Team",
+      "environment": "Production",
+      "status": "Active"
+    },
+    {
+      "id": "ast_customer_db",
+      "organization_id": "org_fintech_global",
+      "name": "Customer Master Aurora PostgreSQL Cluster",
+      "asset_type": "Database",
+      "description": "Multi-region encrypted relational database holding 4.2M customer KYC profiles, tax IDs, and auth hashes",
+      "criticality": "Critical",
+      "business_value": 110000000.0,
+      "data_sensitivity": 98.0,
+      "internet_exposed": false,
+      "owner": "Data Platform Engineering",
+      "environment": "Production",
+      "status": "Active"
+    },
+    {
+      "id": "ast_s3_kyc_vault",
+      "organization_id": "org_fintech_global",
+      "name": "Customer KYC & Financial Records S3 Bucket",
+      "asset_type": "Cloud Storage",
+      "description": "Object storage bucket containing biometric identity scans, bank statements, and tax audit PDFs",
+      "criticality": "High",
+      "business_value": 45000000.0,
+      "data_sensitivity": 90.0,
+      "internet_exposed": false,
+      "owner": "Cloud Infrastructure",
+      "environment": "Production",
+      "status": "Active"
+    },
+    {
+      "id": "ast_ops_admin_portal",
+      "organization_id": "org_fintech_global",
+      "name": "Global Operations & Customer Support Portal",
+      "asset_type": "Portal",
+      "description": "Internal web portal used by Tier 2/3 operations to manage account balances and compliance flags",
+      "criticality": "High",
+      "business_value": 30000000.0,
+      "data_sensitivity": 80.0,
+      "internet_exposed": true,
+      "owner": "Internal IT & DevOps",
+      "environment": "Production",
+      "status": "Active"
+    },
+    {
+      "id": "ast_k8s_prod_cluster",
+      "organization_id": "org_fintech_global",
+      "name": "Production EKS Container Cluster",
+      "asset_type": "Server",
+      "description": "Managed Kubernetes cluster running 120+ microservices including pricing, ledger, and fraud detection",
+      "criticality": "Critical",
+      "business_value": 65000000.0,
+      "data_sensitivity": 85.0,
+      "internet_exposed": true,
+      "owner": "Site Reliability Engineering",
+      "environment": "Production",
+      "status": "Active"
+    },
+    {
+      "id": "ast_staff_laptops",
+      "organization_id": "org_fintech_global",
+      "name": "Global Staff Laptop Fleet (350 Endpoints)",
+      "asset_type": "Endpoint",
+      "description": "Corporate distributed macOS and Windows developer & administrative laptops",
+      "criticality": "Medium",
+      "business_value": 12000000.0,
+      "data_sensitivity": 65.0,
+      "internet_exposed": true,
+      "owner": "Corporate Workplace IT",
+      "environment": "Production",
+      "status": "Active"
+    }
+  ],
+  "vulnerabilities": [
+    {
+      "id": "vuln_cve_2024_21413",
+      "asset_id": "ast_staff_laptops",
+      "cve_id": "CVE-2024-21413",
+      "name": "Microsoft Outlook MonikerLink Remote Code Execution",
+      "description": "Security feature bypass flaw allowing remote attackers to bypass Protected View and stage unauthenticated RCE via malicious file paths",
+      "cvss_score": 9.8,
+      "exploitability_score": 92.5,
+      "severity": "Critical",
+      "patch_available": true,
+      "exploit_available": true,
+      "status": "Open"
+    },
+    {
+      "id": "vuln_cve_2024_3094",
+      "asset_id": "ast_k8s_prod_cluster",
+      "cve_id": "CVE-2024-3094",
+      "name": "XZ Utils Malicious Backdoor Supply Chain Flaw",
+      "description": "Compromised upstream library allowing unauthorized remote code execution and SSH authentication interception in container base images",
+      "cvss_score": 10.0,
+      "exploitability_score": 96.0,
+      "severity": "Critical",
+      "patch_available": true,
+      "exploit_available": true,
+      "status": "In Progress"
+    },
+    {
+      "id": "vuln_cve_2023_44487",
+      "asset_id": "ast_payment_gateway",
+      "cve_id": "CVE-2023-44487",
+      "name": "HTTP/2 Rapid Reset Denial of Service & State Confusion",
+      "description": "RST_STREAM frame multiplexing flood causing severe resource starvation and gateway timeout cascading failures across backend services",
+      "cvss_score": 7.5,
+      "exploitability_score": 85.0,
+      "severity": "High",
+      "patch_available": true,
+      "exploit_available": true,
+      "status": "Open"
+    },
+    {
+      "id": "vuln_cve_2024_21626",
+      "asset_id": "ast_k8s_prod_cluster",
+      "cve_id": "CVE-2024-21626",
+      "name": "runc File Descriptor Leak Container Breakout",
+      "description": "Vulnerability in runc container runtime allowing malicious containers to access host filesystem via inherited file descriptors",
+      "cvss_score": 8.6,
+      "exploitability_score": 88.0,
+      "severity": "High",
+      "patch_available": true,
+      "exploit_available": true,
+      "status": "Open"
+    },
+    {
+      "id": "vuln_cve_2024_3400",
+      "asset_id": "ast_ops_admin_portal",
+      "cve_id": "CVE-2024-3400",
+      "name": "Command Injection in Boundary Ingress Controller",
+      "description": "Arbitrary root command execution in external ingress controller enabling full session token exfiltration and internal network lateral movement",
+      "cvss_score": 10.0,
+      "exploitability_score": 95.0,
+      "severity": "Critical",
+      "patch_available": true,
+      "exploit_available": true,
+      "status": "Open"
+    }
+  ],
+  "threats": [
+    {
+      "id": "tht_lockbit_ransomware",
+      "organization_id": "org_fintech_global",
+      "name": "LockBit 3.0 Ransomware Syndicate",
+      "description": "Top-tier double-extortion ransomware actor targeting cloud environments, exfiltrating data, and encrypting hypervisors",
+      "threat_type": "Ransomware",
+      "activity_level": 92.0,
+      "source": "CISA Alert #AA23-165A & CTI Feeds"
+    },
+    {
+      "id": "tht_scattered_spider",
+      "organization_id": "org_fintech_global",
+      "name": "Scattered Spider (UNC3944)",
+      "description": "Aggressive financial extortion group using advanced helpdesk social engineering, SIM swapping, and Okta MFA bypass",
+      "threat_type": "Credential Theft",
+      "activity_level": 88.0,
+      "source": "FBI Cyber Division Advisory"
+    },
+    {
+      "id": "tht_apt29_cozy_bear",
+      "organization_id": "org_fintech_global",
+      "name": "APT29 (Cozy Bear / Midnight Blizzard)",
+      "description": "Nation-state advanced persistent threat group targeting financial APIs, cloud credentials, and CI/CD pipelines",
+      "threat_type": "External Attacker",
+      "activity_level": 85.0,
+      "source": "MITRE ATT&CK G0016"
+    },
+    {
+      "id": "tht_insider_ops",
+      "organization_id": "org_fintech_global",
+      "name": "Privileged Support & Admin Insider Threat",
+      "description": "Abuse of customer support override credentials and unauthorized database querying",
+      "threat_type": "Insider Threat",
+      "activity_level": 45.0,
+      "source": "Internal SOC Telemetry & Audit Logs"
+    }
+  ],
+  "controls": [
+    {
+      "id": "ctl_aws_waf",
+      "organization_id": "org_fintech_global",
+      "name": "AWS Cloud WAF & Bot Control",
+      "control_type": "WAF",
+      "description": "Managed OWASP Core Rule Sets, Rate Limiting, and Automated HTTP/2 Flood Mitigations",
+      "effectiveness": 82.0,
+      "coverage": 90.0,
+      "status": "Operational"
+    },
+    {
+      "id": "ctl_crowdstrike_edr",
+      "organization_id": "org_fintech_global",
+      "name": "CrowdStrike Falcon Enterprise EDR",
+      "control_type": "EDR",
+      "description": "Kernel-level behavioral sensor with automatic process tree containment and USB device control",
+      "effectiveness": 88.0,
+      "coverage": 94.0,
+      "status": "Operational"
+    },
+    {
+      "id": "ctl_fido2_mfa",
+      "organization_id": "org_fintech_global",
+      "name": "FIDO2 WebAuthn Hardware MFA (YubiKeys)",
+      "control_type": "MFA",
+      "description": "Phishing-resistant cryptographic hardware keys enforced for all administrative and developer logins",
+      "effectiveness": 96.0,
+      "coverage": 92.0,
+      "status": "Operational"
+    },
+    {
+      "id": "ctl_kms_encryption",
+      "organization_id": "org_fintech_global",
+      "name": "Envelope Encryption via AWS KMS",
+      "control_type": "Encryption",
+      "description": "AES-GCM-256 field-level encryption for credit card data and customer PII at rest and in transit",
+      "effectiveness": 95.0,
+      "coverage": 98.0,
+      "status": "Operational"
+    },
+    {
+      "id": "ctl_immutable_backup",
+      "organization_id": "org_fintech_global",
+      "name": "Immutable Air-Gapped S3 Object Lock Backups",
+      "control_type": "Backup",
+      "description": "Compliance-mode write-once-read-many (WORM) daily snapshots with 15-minute RPO guarantee",
+      "effectiveness": 92.0,
+      "coverage": 88.0,
+      "status": "Operational"
+    }
+  ],
+  "risks": [
+    {
+      "id": "rsk_01_gateway_http2",
+      "organization_id": "org_fintech_global",
+      "asset_id": "ast_payment_gateway",
+      "vulnerability_id": "vuln_cve_2023_44487",
+      "threat_id": "tht_apt29_cozy_bear",
+      "parameter_breakdown": {
+        "likelihood_factors": {
+          "exploitability": 85.0,
+          "threat_activity": 85.0,
+          "exposure": 100.0,
+          "vuln_severity": 75.0,
+          "historical_incidents": 60.0,
+          "calculated_likelihood": 84.0
+        },
+        "impact_factors": {
+          "financial_impact": 90.0,
+          "data_sensitivity": 95.0,
+          "business_criticality": 100.0,
+          "regulatory_impact": 85.0,
+          "availability_impact": 95.0,
+          "calculated_impact": 93.0
+        }
+      },
+      "likelihood": 84.0,
+      "impact": 93.0,
+      "inherent_risk": 78.12,
+      "control_adjustment": 73.8,
+      "residual_risk": 20.47,
+      "annual_frequency": 0.45,
+      "expected_loss": 8500000.0,
+      "eal": 3825000.0,
+      "status": "Managed"
+    },
+    {
+      "id": "rsk_02_k8s_runc_escape",
+      "organization_id": "org_fintech_global",
+      "asset_id": "ast_k8s_prod_cluster",
+      "vulnerability_id": "vuln_cve_2024_21626",
+      "threat_id": "tht_lockbit_ransomware",
+      "parameter_breakdown": {
+        "likelihood_factors": {
+          "exploitability": 88.0,
+          "threat_activity": 92.0,
+          "exposure": 100.0,
+          "vuln_severity": 86.0,
+          "historical_incidents": 50.0,
+          "calculated_likelihood": 87.3
+        },
+        "impact_factors": {
+          "financial_impact": 95.0,
+          "data_sensitivity": 85.0,
+          "business_criticality": 95.0,
+          "regulatory_impact": 80.0,
+          "availability_impact": 95.0,
+          "calculated_impact": 90.25
+        }
+      },
+      "likelihood": 87.3,
+      "impact": 90.25,
+      "inherent_risk": 78.79,
+      "control_adjustment": 68.5,
+      "residual_risk": 24.82,
+      "annual_frequency": 0.35,
+      "expected_loss": 14000000.0,
+      "eal": 4900000.0,
+      "status": "Managed"
+    },
+    {
+      "id": "rsk_03_admin_ingress_rce",
+      "organization_id": "org_fintech_global",
+      "asset_id": "ast_ops_admin_portal",
+      "vulnerability_id": "vuln_cve_2024_3400",
+      "threat_id": "tht_scattered_spider",
+      "parameter_breakdown": {
+        "likelihood_factors": {
+          "exploitability": 95.0,
+          "threat_activity": 88.0,
+          "exposure": 100.0,
+          "vuln_severity": 100.0,
+          "historical_incidents": 70.0,
+          "calculated_likelihood": 92.5
+        },
+        "impact_factors": {
+          "financial_impact": 85.0,
+          "data_sensitivity": 80.0,
+          "business_criticality": 85.0,
+          "regulatory_impact": 75.0,
+          "availability_impact": 80.0,
+          "calculated_impact": 81.75
+        }
+      },
+      "likelihood": 92.5,
+      "impact": 81.75,
+      "inherent_risk": 75.62,
+      "control_adjustment": 62.0,
+      "residual_risk": 28.74,
+      "annual_frequency": 0.55,
+      "expected_loss": 7200000.0,
+      "eal": 3960000.0,
+      "status": "Managed"
+    },
+    {
+      "id": "rsk_04_endpoint_outlook_rce",
+      "organization_id": "org_fintech_global",
+      "asset_id": "ast_staff_laptops",
+      "vulnerability_id": "vuln_cve_2024_21413",
+      "threat_id": "tht_scattered_spider",
+      "parameter_breakdown": {
+        "likelihood_factors": {
+          "exploitability": 92.5,
+          "threat_activity": 88.0,
+          "exposure": 100.0,
+          "vuln_severity": 98.0,
+          "historical_incidents": 40.0,
+          "calculated_likelihood": 88.45
+        },
+        "impact_factors": {
+          "financial_impact": 50.0,
+          "data_sensitivity": 65.0,
+          "business_criticality": 60.0,
+          "regulatory_impact": 40.0,
+          "availability_impact": 45.0,
+          "calculated_impact": 53.75
+        }
+      },
+      "likelihood": 88.45,
+      "impact": 53.75,
+      "inherent_risk": 47.54,
+      "control_adjustment": 82.72,
+      "residual_risk": 8.21,
+      "annual_frequency": 0.60,
+      "expected_loss": 2100000.0,
+      "eal": 1260000.0,
+      "status": "Managed"
+    }
+  ],
+  "investments": [
+    {
+      "id": "inv_aws_shield_advanced",
+      "organization_id": "org_fintech_global",
+      "name": "AWS Shield Advanced & Bot Defense Integration",
+      "cost": 36000.0,
+      "expected_risk_reduction": 35.0,
+      "target_risk_id": "rsk_01_gateway_http2",
+      "projected_eal_savings": 1338750.0,
+      "roi_percentage": 3618.0,
+      "status": "Planned"
+    },
+    {
+      "id": "inv_kubernetes_runtime_guard",
+      "organization_id": "org_fintech_global",
+      "name": "Prisma Cloud Container Runtime Security & GuardDuty EKS",
+      "cost": 65000.0,
+      "expected_risk_reduction": 42.0,
+      "target_risk_id": "rsk_02_k8s_runc_escape",
+      "projected_eal_savings": 2058000.0,
+      "roi_percentage": 3066.0,
+      "status": "Proposed"
+    },
+    {
+      "id": "inv_zero_trust_ingress",
+      "organization_id": "org_fintech_global",
+      "name": "Cloudflare Zero Trust Access & IdP Posture Checks",
+      "cost": 24000.0,
+      "expected_risk_reduction": 38.0,
+      "target_risk_id": "rsk_03_admin_ingress_rce",
+      "projected_eal_savings": 1504800.0,
+      "roi_percentage": 6170.0,
+      "status": "Planned"
+    }
+  ]
+}
